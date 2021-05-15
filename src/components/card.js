@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const Card = (article) => {
   // TASK 5
   // ---------------------
@@ -17,6 +19,34 @@ const Card = (article) => {
   //   </div>
   // </div>
   //
+
+  // Create HTML elements
+  const divCard = document.createElement('div');
+  const divHeadline = document.createElement('div');
+  const divAuthor = document.createElement('div');
+  const divImgContainer = document.createElement('div');
+  const imgAuthor = document.createElement('img');
+  const spanAuthor = document.createElement('span');
+  
+  // Organize HTML Elements
+  divCard.appendChild(divHeadline);
+  divCard.appendChild(divAuthor);
+  divAuthor.appendChild(divImgContainer);
+  divImgContainer.appendChild(imgAuthor);
+  divAuthor.appendChild(spanAuthor);
+
+  // Add Classes to HTML elements
+  divCard.classList.add('card');
+  divHeadline.classList.add('headline');
+  divAuthor.classList.add('author')
+  divImgContainer.classList.add('img-container');
+
+  // Assign Content to elements
+  divHeadline.textContent = article.headline;
+  imgAuthor.src = article.authorPhoto;
+  spanAuthor.textContent = article.authorName;
+
+  return divCard
 }
 
 const cardAppender = (selector) => {
@@ -28,6 +58,37 @@ const cardAppender = (selector) => {
   // Create a card from each and every article object in the response, using the Card component.
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
+
+  axios.get('https://lambda-times-api.herokuapp.com/articles')
+  .then(response => {
+    
+    const cssElem3 = document.querySelector(selector);
+
+    let articlesObj = response.data.articles;
+    console.log(articlesObj);
+
+    let articlesKeys = Object.keys(articlesObj);
+    console.log(articlesKeys);
+    
+    articlesKeys.forEach(element => {
+
+      let artclGroup = articlesObj[element]
+      console.log(artclGroup);
+
+      artclGroup.forEach(item => {
+
+        const newCard = Card(item)
+        cssElem3.appendChild(newCard)
+
+      })      
+      
+    });
+    
+  })
+
 }
 
 export { Card, cardAppender }
+
+// const newCard = Card(element);
+//           cssElem3.appendChild(newCard);
