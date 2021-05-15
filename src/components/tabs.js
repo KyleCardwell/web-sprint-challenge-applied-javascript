@@ -54,10 +54,10 @@ const tabsAppender = (selector) => {
   .then((response) => { 
     
     const newTabs = Tabs(response.data.topics);
-    console.log(newTabs);
-
+    console.log(response.data.topics)
     const cssElem2 = document.querySelector(`${selector}`);
     cssElem2.appendChild(newTabs);
+    
   })
 
 }
